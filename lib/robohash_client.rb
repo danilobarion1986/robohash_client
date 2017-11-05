@@ -21,19 +21,35 @@ class Robohash
 		}
 
 		def get(name, options = {})
-			valid_options = extract_valid_options(options)
-			query_string = build_query_string(valid_options)
-			make_request(name, query_string)
+			make_request(name, build_query_string(options))
+		end
+
+		def get_url(name, options = {})
+			puts build_uri(name, build_query_string(options))
 		end
 
 		def get_many(names, options = {})
 			names.reject! { |name| !name.is_a?(String) || name == '' }
-			valid_options = extract_valid_options(options)
-			query_string = build_query_string(valid_options)
-			names.each { |name| make_request(name, query_string) }
+			valid_options = build_query_string(options)
+			names.each { |name| make_request(name, valid_options) }
+		end
+
+		def get_many_url(names, options = {})
+			names.reject! { |name| !name.is_a?(String) || name == '' }
+			valid_options = build_query_string(options)
+			urls = []
+			names.each { |name| urls.push(build_uri(name, valid_options)) }
+			urls
 		end
 
 		private 
+
+		def build_query_string(options)
+			valid_options = extract_valid_options(options)
+			return if valid_options.empty?
+			
+			'?' + valid_options.collect { |option| option }.join('&')
+		end
 
 		def extract_valid_options(options)
 			valid_options = []
@@ -49,22 +65,16 @@ class Robohash
 			valid_options
 		end
 
-		def make_request(name, query_string)
-			uri = URI("#{BASE_URL}/#{name}#{query_string}")
-			response = Net::HTTP.get_response(uri)
-
-			if response.is_a?(Net::HTTPSuccess)
-				save(response, name)
-				puts "Image #{name}.png saved successfully!"
-	    else
-	    	puts "Error obtaining image from #{uri}."
-	    end
+		def build_uri(name, query_string)
+			URI("#{BASE_URL}/#{name}#{query_string}")
 		end
 
-		def build_query_string(valid_options)
-			query_string = '?'
-			valid_options.each { |option| query_string += "#{option}&" }
-			query_string
+		def make_request(name, query_string)
+			uri = build_uri(name, query_string)
+			response = Net::HTTP.get_response(uri)
+			save(response, name)
+	  rescue => e
+	  	puts "Error obtaining image from #{uri}: #{e.message}"
 		end
 
 		def save(image, name)
@@ -73,6 +83,10 @@ class Robohash
 	    open("robohash_images/#{name}.png", 'wb') do |file|
 	      file.write(image.body)
 	    end
+
+	    puts "Image #{name}.png saved successfully!"
+    rescue => e
+	  	puts "Error saving image #{name}.png: #{e.message}"
 		end
 	end
 end
