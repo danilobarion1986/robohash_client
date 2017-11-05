@@ -18,24 +18,35 @@ $ gem install robohash_client-0.0.2.gem
 After install, you could save one or many images from Robohash.org like this:
 
 ```ruby
-# One image
 require 'robohash_client'
 
+# One image
 Robohash.get('your_image_name')
 
 # Many images
 Robohash.get_many(['first','second','third'])
 ```
 
+If you want to return only the URL's, you could do this:
+
+```ruby
+# One URL
+Robohash.get_url('your_image_name')
+ # => 'https://robohash.org/your_image_name'
+
+# Many images
+Robohash.get_many(['first','second','third'])
+ # => ['https://robohash.org/first', 'https://robohash.org/second', 'https://robohash.org/third']
+```
+
 The options allowed are:
 
-1. :set   (available options:  :classic, :human, :heads, :cats, :any) 
-2. :size  (available options:  :small, :medium, :large, :extra)
-3. :bgset (available options:  :one, :two)
+1. :set   (:classic, :human, :heads, :cats, :any) 
+2. :size  (:small, :medium, :large, :extra)
+3. :bgset (:one, :two)
 
 ```ruby
 # Small image, with the cat's set
-
 Robohash.get('your_image_name', { size: :small, set: :cats })
 ```
 
