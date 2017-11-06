@@ -1,53 +1,61 @@
 require 'net/http'
 require 'json'
 
-class Robohash
-	class << self
-		BASE_URL = 'https://robohash.org'
-		DEFAULT_DIRECTORY = 'robohash_images'
-		BGSET = 'bgset='
-		SIZE = 'size='
-		SET = 'set='
-		OPTIONS = { 
-			set: { 
-				classic: "#{SET}set1", human: "#{SET}set2", heads: "#{SET}set3", cats: "#{SET}set4", any: "#{SET}any" 
-			},
-			size: {
-				small: "#{SIZE}100x100", medium: "#{SIZE}250x250", large: "#{SIZE}500x500", extra: "#{SIZE}900x900"
-			},
-			bgset: {
-				one: "#{BGSET}bg1", two: "#{BGSET}bg2"
-			}
+class RobohashClient
+	BASE_URL = 'https://robohash.org'
+	DEFAULT_DIRECTORY = 'robohash_images'
+	BGSET = 'bgset='
+	SIZE = 'size='
+	SET = 'set='
+	OPTIONS = {
+		set: {
+			classic: "#{SET}set1", human: "#{SET}set2", heads: "#{SET}set3", cats: "#{SET}set4", any: "#{SET}any"
+		},
+		size: {
+			small: "#{SIZE}100x100", medium: "#{SIZE}250x250", large: "#{SIZE}500x500", extra: "#{SIZE}900x900"
+		},
+		bgset: {
+			one: "#{BGSET}bg1", two: "#{BGSET}bg2"
 		}
+	}
 
+	class << self
 		def get(name, options = {})
+			return '' if invalid_name(name)
 			make_request(name, build_query_string(options))
 		end
 
 		def get_url(name, options = {})
-			puts build_uri(name, build_query_string(options))
+			return '' if invalid_name(name)
+			build_uri(name, build_query_string(options)).to_s
 		end
 
 		def get_many(names, options = {})
-			names.reject! { |name| !name.is_a?(String) || name == '' }
+			valid_names = names.reject { |name| invalid_name(name) }
+			return [] if valid_names.empty?
 			valid_options = build_query_string(options)
-			names.each { |name| make_request(name, valid_options) }
+			valid_names.each { |name| make_request(name, valid_options) }
 		end
 
 		def get_many_url(names, options = {})
-			names.reject! { |name| !name.is_a?(String) || name == '' }
+			valid_names = names.reject { |name| invalid_name(name) }
+			return [] if valid_names.empty?
 			valid_options = build_query_string(options)
 			urls = []
-			names.each { |name| urls.push(build_uri(name, valid_options)) }
+			valid_names.each { |name| urls.push(build_uri(name, valid_options).to_s) }
 			urls
 		end
 
-		private 
+		private
+
+		def invalid_name(name)
+			!name.is_a?(String) || name == ''
+		end
 
 		def build_query_string(options)
 			valid_options = extract_valid_options(options)
 			return if valid_options.empty?
-			
+
 			'?' + valid_options.collect { |option| option }.join('&')
 		end
 
