@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'robohash_client'
+
+random_name = [*('a'..'Z')].sample(8).join
+RobohashClient.get(random_name)
