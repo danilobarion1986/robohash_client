@@ -1,6 +1,7 @@
 ## Robohash Client
 
 A simple client to get robohash avatar's from Robohash.org.
+[![Gem Version](https://badge.fury.io/rb/robohash_client.svg)](https://badge.fury.io/rb/robohash_client)
 
 ### Installing
 
