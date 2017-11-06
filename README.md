@@ -27,6 +27,18 @@ Robohash.get('your_image_name')
 Robohash.get_many(['first','second','third'])
 ```
 
+If anything but a non-empty String is passed, these are the returns:
+
+```ruby
+# One image
+Robohash.get(:symbol)
+ # => Name should be an non-empty String!
+
+# Many images
+Robohash.get_many([Hash.new, 1, :symbol])
+ # => []
+```
+
 If you want to return only the URL's, you could do this:
 
 ```ruby
@@ -41,7 +53,7 @@ Robohash.get_many(['first','second','third'])
 
 The options allowed are:
 
-1. :set   (:classic, :human, :heads, :cats, :any) 
+1. :set   (:classic, :human, :heads, :cats, :any)
 2. :size  (:small, :medium, :large, :extra)
 3. :bgset (:one, :two)
 
@@ -50,11 +62,19 @@ The options allowed are:
 Robohash.get('your_image_name', { size: :small, set: :cats })
 ```
 
-If invalid options or values are passed, they will be ignored.
+If invalid options are passed, they will be ignored.
 
 The images will be saved at 'robohash_images' folder, in the folder where the ruby code is running, with the name passed as parameter and .png extension.
 
-Currently is not possible to change the default directory that is used to save the image, neither the image extension, but I plan to include this options soon (Or if you want to help, contribute!).
+_Currently is not possible to change the default directory that is used to save the image, neither the image extension, but I plan to include this options soon (Or if you want to help, contribute!)._
+
+### Tests
+
+To run the tests, do:
+
+```
+$ bundle && rspec
+```
 
 ### How to contribute?
 
@@ -65,7 +85,6 @@ If you want to include more functionality or suggest some change:
 3. Submit your PR!
 
 Once your PR is approved, repo owner (me!) will merge and deploy to Github and Rubygems.
-
 
 ### Contact
 
