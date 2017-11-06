@@ -39,12 +39,25 @@ describe RobohashClient do
       end
     end
 
+    context 'when a valid name is given' do
+      context 'with some options' do
+        let(:valid_name) { 'valid_name' }
+        let(:options) { { size: :small, set: :human } }
+        let(:expected_url) { 'https://robohash.org/valid_name?size=100x100&set=set2' }
+
+        it 'returns the correct URL' do
+          method_return = subject.get_url(valid_name, options)
+          expect(method_return).to eq expected_url
+        end
+      end
+    end
+
     context 'when an invalid name is given' do
       let(:invalid_name) { :symbol }
 
       it 'returns an empty string' do
         method_return = subject.get_url(invalid_name)
-        expect(method_return).to eq ''
+        expect(method_return).to eq 'Name should be an non-empty String!'
       end
     end
   end
@@ -80,6 +93,94 @@ describe RobohashClient do
 
       it 'returns an empty array' do
         method_return = subject.get_many_url(invalid_names)
+        expect(method_return).to eq []
+      end
+    end
+  end
+
+  describe '.get' do
+    context 'when a valid name is given' do
+      let(:valid_name) { 'valid_name' }
+
+      it 'save the file with that name' do
+        subject.get(valid_name)
+        expect(File.exists?("./robohash_images/#{valid_name}.png")).to be true
+      end
+    end
+
+    context 'when a valid name is given' do
+      context 'with some options' do
+        let(:valid_name) { 'valid_name' }
+        let(:options) { { size: :small, set: :human } }
+
+        xit 'save the file with correct formats' do
+          # to implement the comparison of downloaded image with the spec image'
+          subject.get(valid_name)
+          expect(File.exists?("./robohash_images/#{valid_name}.png")).to be true #{spec image to compare}
+        end
+      end
+    end
+
+    context 'when an invalid name is given' do
+      let(:invalid_name) { :symbol }
+
+      it 'returns an empty string' do
+        method_return = subject.get(invalid_name)
+        expect(method_return).to eq 'Name should be an non-empty String!'
+      end
+    end
+  end
+
+  describe '.get_many' do
+    context 'when valids names are given' do
+      let(:valid_names) { ['valid1', 'valid2', 'valid3'] }
+
+      it 'save each file with its name' do
+        subject.get_many(valid_names)
+        valid_names.each do |name|
+          expect(File.exists?("./robohash_images/#{name}.png")).to be true
+        end
+      end
+    end
+
+    context 'when valid and invalid names are given' do
+      let(:valid_names) { ['valid1', 'valid2'] }
+      let(:invalid_names) { [:symbol, 1] }
+
+      it 'saves the correct number of files' do
+        subject.get_many(valid_names)
+        subject.get_many(invalid_names)
+
+        invalid_names.each do |invalid_name|
+          expect(File.exists?("./robohash_images/#{invalid_name}.png")).to be false
+        end
+
+        valid_names.each do |valid_name|
+          expect(File.exists?("./robohash_images/#{valid_name}.png")).to be true
+        end
+      end
+    end
+
+    context 'when valids names are given' do
+      context 'with some options' do
+        let(:valid_names) { ['valid1', 'valid2', 'valid3'] }
+        let(:options) { { size: :small, set: :human } }
+
+        xit 'save each file with the correct formats' do
+          # to implement the comparison of downloaded image with the spec image'
+          subject.get_many(valid_names)
+          valid_names.each do |name|
+            expect(File.exists?("./robohash_images/#{name}.png")).to be true #{spec image to compare}
+          end
+        end
+      end
+    end
+
+    context 'when no valid names are given' do
+      let(:invalid_names) { [Hash.new, 1, :symbol] }
+
+      it 'returns an empty string' do
+        method_return = subject.get_many(invalid_names)
         expect(method_return).to eq []
       end
     end
