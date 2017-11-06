@@ -21,21 +21,21 @@ After install, you could save one or many images from Robohash.org like this:
 require 'robohash_client'
 
 # One image
-Robohash.get('your_image_name')
+RobohashClient.get('your_image_name')
 
 # Many images
-Robohash.get_many(['first','second','third'])
+RobohashClient.get_many(['first','second','third'])
 ```
 
 If anything but a non-empty String is passed, these are the returns:
 
 ```ruby
 # One image
-Robohash.get(:symbol)
+RobohashClient.get(:symbol)
  # => Name should be an non-empty String!
 
 # Many images
-Robohash.get_many([Hash.new, 1, :symbol])
+RobohashClient.get_many([Hash.new, 1, :symbol])
  # => []
 ```
 
@@ -43,11 +43,11 @@ If you want to return only the URL's, you could do this:
 
 ```ruby
 # One URL
-Robohash.get_url('your_image_name')
+RobohashClient.get_url('your_image_name')
  # => 'https://robohash.org/your_image_name'
 
 # Many images
-Robohash.get_many(['first','second','third'])
+RobohashClient.get_many(['first','second','third'])
  # => ['https://robohash.org/first', 'https://robohash.org/second', 'https://robohash.org/third']
 ```
 
@@ -59,7 +59,7 @@ The options allowed are:
 
 ```ruby
 # Small image, with the cat's set
-Robohash.get('your_image_name', { size: :small, set: :cats })
+RobohashClient.get('your_image_name', { size: :small, set: :cats })
 ```
 
 If invalid options are passed, they will be ignored.
