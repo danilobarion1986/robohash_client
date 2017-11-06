@@ -21,32 +21,35 @@ class RobohashClient
 
 	class << self
 		def get(name, options = {})
-			return '' if invalid_name(name)
+			return 'Name should be an non-empty String!' if invalid_name(name)
 			make_request(name, build_query_string(options))
 		end
 
 		def get_url(name, options = {})
-			return '' if invalid_name(name)
+			return 'Name should be an non-empty String!' if invalid_name(name)
 			build_uri(name, build_query_string(options)).to_s
 		end
 
 		def get_many(names, options = {})
-			valid_names = names.reject { |name| invalid_name(name) }
-			return [] if valid_names.empty?
-			valid_options = build_query_string(options)
+			valid_names = extract_valid_names(names)
+			valid_options = build_query_string(options) unless valid_names.empty?
 			valid_names.each { |name| make_request(name, valid_options) }
 		end
 
 		def get_many_url(names, options = {})
-			valid_names = names.reject { |name| invalid_name(name) }
-			return [] if valid_names.empty?
-			valid_options = build_query_string(options)
 			urls = []
+			valid_names = extract_valid_names(names)
+			valid_options = build_query_string(options) unless valid_names.empty?
 			valid_names.each { |name| urls.push(build_uri(name, valid_options).to_s) }
 			urls
 		end
 
 		private
+
+		def extract_valid_names(names)
+			return [] unless names.is_a?(Array)
+			names.reject { |name| invalid_name(name) }
+		end
 
 		def invalid_name(name)
 			!name.is_a?(String) || name == ''
