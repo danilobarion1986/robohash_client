@@ -67,7 +67,21 @@ If invalid options are passed, they will be ignored.
 
 The images will be saved at 'robohash_images' folder, in the folder where the ruby code is running, with the name passed as parameter and .png extension.
 
-_Currently is not possible to change the default directory that is used to save the image, neither the image extension, but I plan to include this options soon (Or if you want to help, contribute!)._
+If you want to change the default directory where images are saved, you could use the default_dir property:
+
+```ruby
+# Change default save directory to '/home/my_user'
+Robohash.default_dir = '/home/my_user'
+Robohash.get('my_image')
+ # => "Image my_image.png saved successfully on /home/my_user!"
+
+# Reset default save directory to './robohash_images'
+Robohash.reset_default_dir
+Robohash.get('my_image')
+ # => "Image my_image.png saved successfully on /path/to/ruby/file/robohash_images!"
+```
+
+_Currently is not possible to change the default image extension, but I plan to include this option as soon as possible (or if you want to help, contribute!)._
 
 ### Tests
 

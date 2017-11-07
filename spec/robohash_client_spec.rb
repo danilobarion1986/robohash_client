@@ -13,14 +13,27 @@ describe RobohashClient do
 
   describe '@default_dir' do
     context 'when user redefines the default dir' do
+      let(:new_image) { 'new_image' }
+      let(:new_default_dir) { './spec/images' }
+
       it 'is correctly redefined' do
         subject.default_dir = 'my_other_default_dir'
 
         expect(subject.default_dir).to eq 'my_other_default_dir'
+
+        subject.reset_default_dir
+      end
+
+      it 'new images are saved on this directory' do
+        subject.default_dir = new_default_dir
+        subject.get(new_image)
+        subject.reset_default_dir
+
+        expect(File.exists?(File.join("#{new_default_dir}", "#{new_image}.png"))).to be true
       end
     end
   end
-  
+
   describe '.reset_default_dir' do
     context 'when user resets the default dir' do
       it 'is correctly reseted' do
