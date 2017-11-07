@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.homepage    = "http://rubygems.org/gems/#{gem_name}"
   s.license       = 'MIT'
   s.add_development_dependency 'rspec', '~> 3'
+  s.add_development_dependency 'pry'
   s.required_ruby_version = '>= 1.9'
   s.post_install_message = "=========================\n\n   WE ARE THE ROBOTS! \n\n========================="
   s.metadata = {
