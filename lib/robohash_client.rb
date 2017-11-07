@@ -89,8 +89,7 @@ class RobohashClient
 
 		def make_request(name, query_string)
 			uri = build_uri(name, query_string)
-			response = Net::HTTP.get_response(uri)
-			save(response, name)
+			save(Net::HTTP.get_response(uri), name)
 	  rescue => e
 	  	puts "Error obtaining image from #{uri}: #{e.message}"
 		end
