@@ -91,6 +91,14 @@ To run the tests, do:
 $ bundle && rspec
 ```
 
+### TODO's
+
++ Add a decent CLI
++ Get image/url with random name
++ Add option for other image formats
++ Refactor RobohashClient class in more classes
++ ...
+
 ### How to contribute?
 
 If you want to include more functionality or suggest some change:
