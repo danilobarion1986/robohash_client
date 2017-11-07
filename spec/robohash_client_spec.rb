@@ -11,6 +11,26 @@ describe RobohashClient do
     it { expect(subject::DEFAULT_DIRECTORY).to eq 'robohash_images' }
   end
 
+  describe '@default_dir' do
+    context 'when user redefines the default dir' do
+      it 'is correctly redefined' do
+        subject.default_dir = 'my_other_default_dir'
+
+        expect(subject.default_dir).to eq 'my_other_default_dir'
+      end
+    end
+  end
+  
+  describe '.reset_default_dir' do
+    context 'when user resets the default dir' do
+      it 'is correctly reseted' do
+        subject.reset_default_dir
+
+        expect(subject.default_dir).to eq subject::DEFAULT_DIRECTORY
+      end
+    end
+  end
+
   describe '::BGSET' do
     it { expect(subject::BGSET).to eq 'bgset=' }
   end

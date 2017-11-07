@@ -1,5 +1,5 @@
 require 'net/http'
-require 'json'
+require 'pry'
 
 class RobohashClient
 	BASE_URL = 'https://robohash.org'
@@ -20,6 +20,9 @@ class RobohashClient
 	}
 
 	class << self
+		attr_accessor :default_dir
+		@default_dir = DEFAULT_DIRECTORY
+
 		def get(name, options = {})
 			return 'Name should be an non-empty String!' if invalid_name(name)
 			make_request(name, build_query_string(options))
@@ -42,6 +45,10 @@ class RobohashClient
 			valid_options = build_query_string(options) unless valid_names.empty?
 			valid_names.each { |name| urls.push(build_uri(name, valid_options).to_s) }
 			urls
+		end
+
+		def reset_default_dir
+			@default_dir = DEFAULT_DIRECTORY
 		end
 
 		private
@@ -89,7 +96,7 @@ class RobohashClient
 		end
 
 		def save(image, name)
-	    Dir.mkdir(DEFAULT_DIRECTORY) unless Dir.exists? DEFAULT_DIRECTORY
+	    Dir.mkdir(@default_dir) unless Dir.exists? @default_dir
 
 	    open("robohash_images/#{name}.png", 'wb') do |file|
 	      file.write(image.body)
