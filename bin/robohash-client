@@ -2,5 +2,7 @@
 
 require 'robohash_client'
 
-random_name = [*('a'..'Z')].sample(8).join
+random_name = Array.new(12){[*'A'..'Z', *'0'..'9'].sample}.join
+RobohashClient.default_dir = 'robohash_images'
 RobohashClient.get(random_name)
+puts " => URL: #{RobohashClient.get_url(random_name)}"
