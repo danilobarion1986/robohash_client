@@ -16,6 +16,8 @@ $ gem build robohash_client.gemspec
 $ gem install robohash_client-0.0.2.gem
 ```
 
+### Usage
+
 After install, you could save one or many images from Robohash.org like this:
 
 ```ruby
@@ -83,6 +85,16 @@ Robohash.get('my_image')
 
 _Currently is not possible to change the default image extension, but I plan to include this option as soon as possible (or if you want to help, contribute!)._
 
+#### Command Line
+
+If you want to save an random name image on default directory, you could use the CLI:
+
+```ruby
+$ robohash-client
+# Image JD70LNQTP6F8.png saved successfully on robohash_images!
+#  => URL: https://robohash.org/JD70LNQTP6F8
+```
+
 ### Tests
 
 To run the tests, do:
@@ -93,8 +105,8 @@ $ bundle && rspec
 
 ### TODO's
 
-+ Add a decent CLI
-+ Get image/url with random name
++ Add a more decent CLI :)
++ Get image/url with random name from client
 + Add option for other image formats
 + Refactor RobohashClient class in more classes
 + ...
@@ -111,4 +123,4 @@ Once your PR is approved, repo owner (me!) will merge and deploy to Github and R
 
 ### Contact
 
-If you have some doubt, feel free to send me a message!
+If you have some question, feel free to send me a message!
