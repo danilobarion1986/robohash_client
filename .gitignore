@@ -1,3 +1,4 @@
 /robohash_client-*
 /robohash_images/*
 Gemfile.lock
+/spec/images

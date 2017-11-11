@@ -44,13 +44,14 @@ class RobohashClient
 		private
 
 		def save(image, name)
-	    Dir.mkdir(@default_dir) unless Dir.exists? @default_dir
+			dir = @default_dir || DEFAULT_DIRECTORY
+	    Dir.mkdir(dir) unless Dir.exists? dir
 
-	    open("robohash_images/#{name}.png", 'wb') do |file|
+	    open(File.join("#{dir}", "#{name}.png"), 'wb') do |file|
 	      file.write(image.body)
 	    end
 
-	    puts "Image #{name}.png saved successfully!"
+	    puts "Image #{name}.png saved successfully on #{dir}!"
     rescue => e
 	  	puts "Error saving image #{name}.png: #{e.message}"
 		end

@@ -16,6 +16,8 @@ $ gem build robohash_client.gemspec
 $ gem install robohash_client-0.0.2.gem
 ```
 
+### Usage
+
 After install, you could save one or many images from Robohash.org like this:
 
 ```ruby
@@ -67,7 +69,31 @@ If invalid options are passed, they will be ignored.
 
 The images will be saved at 'robohash_images' folder, in the folder where the ruby code is running, with the name passed as parameter and .png extension.
 
-_Currently is not possible to change the default directory that is used to save the image, neither the image extension, but I plan to include this options soon (Or if you want to help, contribute!)._
+If you want to change the default directory where images are saved, you could use the default_dir property:
+
+```ruby
+# Change default save directory to '/home/my_user'
+Robohash.default_dir = '/home/my_user'
+Robohash.get('my_image')
+ # => "Image my_image.png saved successfully on /home/my_user!"
+
+# Reset default save directory to './robohash_images'
+Robohash.reset_default_dir
+Robohash.get('my_image')
+ # => "Image my_image.png saved successfully on /path/to/ruby/file/robohash_images!"
+```
+
+_Currently is not possible to change the default image extension, but I plan to include this option as soon as possible (or if you want to help, contribute!)._
+
+#### Command Line
+
+If you want to save an random name image on default directory, you could use the CLI:
+
+```ruby
+$ robohash-client
+# Image JD70LNQTP6F8.png saved successfully on robohash_images!
+#  => URL: https://robohash.org/JD70LNQTP6F8
+```
 
 ### Tests
 
@@ -76,6 +102,14 @@ To run the tests, do:
 ```
 $ bundle && rspec
 ```
+
+### TODO's
+
++ Add a more decent CLI :)
++ Get image/url with random name from client
++ Add option for other image formats
++ Refactor RobohashClient class in more classes
++ ...
 
 ### How to contribute?
 
@@ -89,4 +123,4 @@ Once your PR is approved, repo owner (me!) will merge and deploy to Github and R
 
 ### Contact
 
-If you have some doubt, feel free to send me a message!
+If you have some question, feel free to send me a message!
