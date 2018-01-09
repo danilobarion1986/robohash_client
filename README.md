@@ -121,6 +121,10 @@ If you want to include more functionality or suggest some change:
 
 Once your PR is approved, repo owner (me!) will merge and deploy to Github and Rubygems.
 
+If you want, can buy me a coffee too! ;)
+
+[<img src="https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png">](https://www.buymeacoffee.com/danilobarion/)
+
 ### Contact
 
 If you have some question, feel free to send me a message!
