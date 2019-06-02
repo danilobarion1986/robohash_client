@@ -20,7 +20,5 @@ class RobohashRequester
     return if (options || {}).empty?
 
     '?' + options.select! { |option| option }.join('&')
-
-
   end
 end

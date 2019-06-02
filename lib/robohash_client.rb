@@ -40,9 +40,9 @@ class RobohashClient
       valid_names = @validator.extract_valid_names(names)
       valid_options = @validator.extract_valid_options(options) unless valid_names.empty?
 
-      valid_names.inject([]) do |acc, name|
-      	acc << @requester.build_uri(name, valid_options).to_s
-      	acc
+      valid_names.each_with_object([]) do |name, acc|
+        acc << @requester.build_uri(name, valid_options).to_s
+        acc
       end
     end
 
