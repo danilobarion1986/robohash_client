@@ -2,22 +2,25 @@
 
 # Class responsible for HTTP requests for robohash.org
 class RobohashRequester
-  def build_query_string(options)
-    valid_options = RobohashValidator.extract_valid_options(options)
-    return if valid_options.empty?
-
-    '?' + valid_options.collect { |option| option }.join('&')
-  end
-
   def build_uri(name, query_string)
     URI("#{BASE_URL}/#{name}#{query_string}")
   end
 
-  def make_request(name, query_string)
-    uri = build_uri(name, query_string)
+  def make_request(name, options)
+    uri = build_uri(name, build_query_string(options))
     response = Net::HTTP.get_response(uri)
     save(response, name)
   rescue StandardError => e
     puts "Error obtaining image from #{uri}: #{e.message}"
+  end
+
+  private
+
+  def build_query_string(options)
+    return if (options || {}).empty?
+
+    '?' + options.select! { |option| option }.join('&')
+
+
   end
 end
