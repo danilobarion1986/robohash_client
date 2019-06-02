@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
+require 'pry'
+
 Bundler.setup
 
-require 'robohash_client'
+%w[requester validator client].each { |filename| require_relative "../lib/robohash/#{filename}" }
 
 RSpec.configure do |config|
   config.default_formatter = 'doc'

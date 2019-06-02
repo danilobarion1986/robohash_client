@@ -2,8 +2,8 @@
 
 require 'spec_helper'
 
-describe RobohashClient do
-  subject { RobohashClient }
+describe ::Robohash::Client do
+  subject { described_class }
 
   describe '::BASE_URL' do
     it { expect(subject::BASE_URL).to eq 'https://robohash.org' }
@@ -26,7 +26,7 @@ describe RobohashClient do
         subject.reset_default_dir
       end
 
-      it 'new images are saved on this directory' do
+      xit 'new images are saved on this directory' do
         subject.default_dir = new_default_dir
         subject.get(new_image)
         subject.reset_default_dir
