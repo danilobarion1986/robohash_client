@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# $LOAD_PATH << File.expand_path('../lib', __FILE__)
+$LOAD_PATH << File.expand_path('../lib', __FILE__)
 # Adds the subfolder /lib (relative to this file), to the Ruby's load path array.
 # So other files from this gem can be required
 
