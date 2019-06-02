@@ -12,33 +12,38 @@ class RobohashClient
   class << self
     attr_accessor :default_dir
     @default_dir = DEFAULT_DIRECTORY
-    @requester = RobohashRequester.new
-    @validator = RobohashValidator.new
+    @requester = RobohashRequester.new.freeze
+    @validator = RobohashValidator.new.freeze
 
     def get(name, options = {})
       return 'Name should be an non-empty String!' if @validator.invalid_name(name)
 
-      @requester.make_request(name, @requester.build_query_string(options))
+      valid_options = @validator.extract_valid_options(options)
+      @requester.make_request(name, valid_options)
     end
 
     def get_url(name, options = {})
       return 'Name should be an non-empty String!' if @validator.invalid_name(name)
 
-      @requester.build_uri(name, @requester.build_query_string(options)).to_s
+      valid_options = @validator.extract_valid_options(options)
+      @requester.build_uri(name, valid_options).to_s
     end
 
     def get_many(names, options = {})
       valid_names = @validator.extract_valid_names(names)
-      valid_options = @requester.build_query_string(options) unless valid_names.empty?
+      valid_options = @validator.extract_valid_options(options) unless valid_names.empty?
+
       valid_names.each { |name| @requester.make_request(name, valid_options) }
     end
 
     def get_many_url(names, options = {})
-      urls = []
       valid_names = @validator.extract_valid_names(names)
-      valid_options = @requester.build_query_string(options) unless valid_names.empty?
-      valid_names.each { |name| urls.push(@requester.build_uri(name, valid_options).to_s) }
-      urls
+      valid_options = @validator.extract_valid_options(options) unless valid_names.empty?
+
+      valid_names.inject([]) do |acc, name|
+      	acc << @requester.build_uri(name, valid_options).to_s
+      	acc
+      end
     end
 
     def reset_default_dir
