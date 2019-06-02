@@ -1,0 +1,28 @@
+require: rubocop-performance
+
+AllCops:
+  TargetRubyVersion: '2.5'
+  Exclude:
+    - robohash_client.gemspec
+
+Style/AsciiComments:
+  Exclude:
+    - 'lib/**/*.rb'
+    - 'spec/**/*.rb'
+    - 'bin/**/*'
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/ModuleLength:
+  Exclude:
+    - '**/*_spec.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - '**/*_spec.rb'
+
+Style/Documentation:
+  Exclude:
+    - 'spec/**/*'
+    - 'config/application.rb'

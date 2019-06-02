@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe RobohashClient do
@@ -29,7 +31,7 @@ describe RobohashClient do
         subject.get(new_image)
         subject.reset_default_dir
 
-        expect(File.exists?(File.join("#{new_default_dir}", "#{new_image}.png"))).to be true
+        expect(File.exist?(File.join(new_default_dir.to_s, "#{new_image}.png"))).to be true
       end
     end
   end
@@ -97,7 +99,7 @@ describe RobohashClient do
 
   describe '.get_many_url' do
     context 'when valid names are given' do
-      let(:valid_names) { ['valid1', 'valid2', 'valid3'] }
+      let(:valid_names) { %w[valid1 valid2 valid3] }
 
       it 'returns the corrects URL\'s' do
         method_return = subject.get_many_url(valid_names)
@@ -122,7 +124,7 @@ describe RobohashClient do
     end
 
     context 'when no valid names are given' do
-      let(:invalid_names) { [Hash.new, 1, :symbol] }
+      let(:invalid_names) { [{}, 1, :symbol] }
 
       it 'returns an empty array' do
         method_return = subject.get_many_url(invalid_names)
@@ -137,7 +139,7 @@ describe RobohashClient do
 
       it 'save the file with that name' do
         subject.get(valid_name)
-        expect(File.exists?("./robohash_images/#{valid_name}.png")).to be true
+        expect(File.exist?("./robohash_images/#{valid_name}.png")).to be true
       end
     end
 
@@ -149,7 +151,7 @@ describe RobohashClient do
         xit 'save the file with correct formats' do
           # to implement the comparison of downloaded image with the spec image'
           subject.get(valid_name)
-          expect(File.exists?("./robohash_images/#{valid_name}.png")).to be true #{spec image to compare}
+          expect(File.exist?("./robohash_images/#{valid_name}.png")).to be true # {spec image to compare}
         end
       end
     end
@@ -166,18 +168,18 @@ describe RobohashClient do
 
   describe '.get_many' do
     context 'when valids names are given' do
-      let(:valid_names) { ['valid1', 'valid2', 'valid3'] }
+      let(:valid_names) { %w[valid1 valid2 valid3] }
 
       it 'save each file with its name' do
         subject.get_many(valid_names)
         valid_names.each do |name|
-          expect(File.exists?("./robohash_images/#{name}.png")).to be true
+          expect(File.exist?("./robohash_images/#{name}.png")).to be true
         end
       end
     end
 
     context 'when valid and invalid names are given' do
-      let(:valid_names) { ['valid1', 'valid2'] }
+      let(:valid_names) { %w[valid1 valid2] }
       let(:invalid_names) { [:symbol, 1] }
 
       it 'saves the correct number of files' do
@@ -185,32 +187,32 @@ describe RobohashClient do
         subject.get_many(invalid_names)
 
         invalid_names.each do |invalid_name|
-          expect(File.exists?("./robohash_images/#{invalid_name}.png")).to be false
+          expect(File.exist?("./robohash_images/#{invalid_name}.png")).to be false
         end
 
         valid_names.each do |valid_name|
-          expect(File.exists?("./robohash_images/#{valid_name}.png")).to be true
+          expect(File.exist?("./robohash_images/#{valid_name}.png")).to be true
         end
       end
     end
 
     context 'when valids names are given' do
       context 'with some options' do
-        let(:valid_names) { ['valid1', 'valid2', 'valid3'] }
+        let(:valid_names) { %w[valid1 valid2 valid3] }
         let(:options) { { size: :small, set: :human } }
 
         xit 'save each file with the correct formats' do
           # to implement the comparison of downloaded image with the spec image'
           subject.get_many(valid_names)
           valid_names.each do |name|
-            expect(File.exists?("./robohash_images/#{name}.png")).to be true #{spec image to compare}
+            expect(File.exist?("./robohash_images/#{name}.png")).to be true # {spec image to compare}
           end
         end
       end
     end
 
     context 'when no valid names are given' do
-      let(:invalid_names) { [Hash.new, 1, :symbol] }
+      let(:invalid_names) { [{}, 1, :symbol] }
 
       it 'returns an empty string' do
         method_return = subject.get_many(invalid_names)

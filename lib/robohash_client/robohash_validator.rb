@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Class responsible for validate the options passed to the client
 class RobohashValidator
   BGSET = 'bgset='
   SIZE = 'size='
@@ -12,10 +15,11 @@ class RobohashValidator
     bgset: {
       one: "#{BGSET}bg1", two: "#{BGSET}bg2"
     }
-  }
+  }.freeze
 
   def extract_valid_names(names)
     return [] unless names.is_a?(Array)
+
     names.reject { |name| invalid_name(name) }
   end
 

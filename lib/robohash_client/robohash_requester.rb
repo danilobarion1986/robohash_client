@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Class responsible for HTTP requests for robohash.org
 class RobohashRequester
   def build_query_string(options)
     valid_options = RobohashValidator.extract_valid_options(options)
@@ -14,7 +17,7 @@ class RobohashRequester
     uri = build_uri(name, query_string)
     response = Net::HTTP.get_response(uri)
     save(response, name)
-  rescue => e
+  rescue StandardError => e
     puts "Error obtaining image from #{uri}: #{e.message}"
   end
 end
